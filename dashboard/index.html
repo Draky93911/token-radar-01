@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocol board</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>TOKEN RADAR</h1>
+    <p class="sub">Every protocol DefiLlama tracks, ranked by what its launch would be worth — if its record stayed as it is.</p>
+  </div>
+  <dl class="stats" id="stats"></dl>
+</header>
+
+<section class="model" id="model">
+  <h2>How the value is worked out <span class="tag" id="modelVersion"></span></h2>
+  <p class="formula">implied value = TVL × 0.30 × growth × maturity × breadth</p>
+  <ul>
+    <li><b>Growth</b> — the protocol's 7-day TVL change, clamped to −50%…+150%, weighted 0.8.</li>
+    <li><b>Maturity</b> — 0.70 for a brand-new listing, rising to 1.20 after 4 years with no token.</li>
+    <li><b>Breadth</b> — 1.00 on one chain, +0.05 per extra chain, up to 1.20.</li>
+    <li><b>Nothing else.</b> No name is special-cased; the same four numbers score every row.</li>
+  </ul>
+  <p class="note">An implied value is this board's own claim from the sealed snapshot. It is not a prediction that a token will launch, or when — only what one would be worth if the protocol's record stayed as it is.</p>
+</section>
+
+<section class="controls">
+  <input id="q" type="search" placeholder="Search name or slug…" aria-label="Search">
+  <select id="cat" aria-label="Category"><option value="">All categories</option></select>
+  <select id="chain" aria-label="Chain"><option value="">All chains</option></select>
+  <select id="sort" aria-label="Sort">
+    <option value="implied">Sort: implied value</option>
+    <option value="tvl">Sort: TVL</option>
+    <option value="growth">Sort: 7-day growth</option>
+    <option value="age">Sort: age</option>
+    <option value="name">Sort: name A–Z</option>
+  </select>
+  <label class="check"><input id="watch" type="checkbox"> Watchlist only</label>
+  <span class="count" id="count"></span>
+</section>
+
+<main>
+  <table id="board">
+    <thead><tr>
+      <th>#</th><th>Protocol</th><th>Category</th><th>Chains</th>
+      <th class="num">TVL</th><th class="num">7d</th><th class="num">Age</th><th class="num">Implied value</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <section class="detail" id="detail" hidden>
+    <div class="detail-head">
+      <h2 id="dName"></h2>
+      <button id="dClose" type="button">Close ×</button>
+    </div>
+    <dl class="dstats" id="dStats"></dl>
+    <h3>Why this value — the model's four numbers</h3>
+    <div class="bars" id="dBars"></div>
+    <h3>Farm plan — five steps, with cost and time</h3>
+    <ol class="steps" id="dSteps"></ol>
+    <p class="note">This protocol records no token. That is what the snapshot says — not proof it has none. Farm it for the position, not for a promise.</p>
+  </section>
+
+  <section class="live">
+    <h2>Already trading — the market's own values, not ranked</h2>
+    <p class="note">These protocols have a token that trades, so they sit outside the board. Their market cap is the market's number, not this model's.</p>
+    <table id="liveTable">
+      <thead><tr><th>Protocol</th><th>Category</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">7d</th></tr></thead>
+      <tbody id="liveRows"></tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <p>Source: <span id="src"></span>. Snapshot date: <span id="asof"></span>. Board: <span id="foot"></span>.</p>
+  <p>Method: watchlist (TVL ≥ $50M, no token recorded, not wrapped / staked / bridged, not a versioned pool) plus the pre-token protocols below the floor, up to 200 by TVL, ranked by the radar-2 model above. A board row's farm plan is generated from its own category, chains, TVL and age.</p>
+</footer>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
